@@ -1,4 +1,4 @@
-# This is the configuration file for the MinecraftServerAPI-Plugin.
+# This is the configuration file for the CraftAPI-Plugin.
 
 # The port the API should listen on.
 port: 7000
@@ -23,8 +23,7 @@ webhooks:
   # You can set a list of URLs which should be called when the Webhook is triggered.
   # You can set multiple URLs here.
   urls:
-    - "https://example.com/webhook1"
-    - "https://example.com/webhook2"
+    - "localhost:7000/webhook1"
 
   # Here is a list of all available Webhooks.
   # You can enable or disable them here.

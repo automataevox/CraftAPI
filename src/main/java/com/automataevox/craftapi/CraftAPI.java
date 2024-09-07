@@ -14,13 +14,14 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.automataevox.craftapi.listeners.PlayerLoginListener;
 
 import java.io.File;
+import java.util.Base64;
 
 public class CraftAPI extends JavaPlugin  {
 
     private static final int DEFAULT_PORT = 7000;
     private WebServer server;
     public static FileConfiguration config;
-    public static String pluginName = "MinecraftServerAPI";
+    public static String pluginName = "CraftAPI";
     private static CraftAPI instance;
 
     private static boolean blockNewConnections = false;
@@ -48,8 +49,6 @@ public class CraftAPI extends JavaPlugin  {
             Logger.warning("Authentication is disabled. This is not recommended.");
         } else if ("CHANGE_ME".equals(authKey)) {
             Logger.error("Please change the authKey in the config.yml file.");
-            getServer().getPluginManager().disablePlugin(this);
-            return;
         }
 
         int port = getConfig().getInt("port", DEFAULT_PORT);

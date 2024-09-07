@@ -22,12 +22,12 @@ public final class VersionCommand extends SubCommand {
 
     @Override
     public String getSyntax() {
-        return "/mcapi version";
+        return "/capi version";
     }
 
     @Override
     public void perform(final CommandSender commandSender, final Command command, final String label, final String[] args) {
-        commandSender.sendMessage(ChatColor.GREEN + "MinecraftServerAPI version: " + ChatColor.GOLD + CraftAPI.getInstance().getDescription().getVersion());
+        commandSender.sendMessage(ChatColor.GREEN + "CraftAPI version: " + ChatColor.GOLD + CraftAPI.getInstance().getDescription().getVersion());
         commandSender.sendMessage("");
         commandSender.sendMessage(ChatColor.GREEN + "Check for updates...");
 

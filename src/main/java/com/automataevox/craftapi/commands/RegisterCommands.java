@@ -31,6 +31,6 @@ public final class RegisterCommands {
             new VersionCommand()
         );
         CommandManager versionCommandManager = new CommandManager(mcapiSubCommands);
-        plugin.getCommand("mcapi").setExecutor(versionCommandManager);
+        plugin.getCommand("capi").setExecutor(versionCommandManager);
     }
 }
