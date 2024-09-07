@@ -85,5 +85,3 @@ For a detailed list of all available WebHooks and their default settings, please
 ## Configuration
 The plugin is configured via a `config.yml` file in the `plugins/CraftAPI directory. Here, you can set the authentication key and other settings.
 
-## Contributing
-Contributions are welcome! Please read the [contributing guidelines](CONTRIBUTING.md) to get started.
