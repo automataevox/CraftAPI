@@ -1,8 +1,8 @@
-# MinecraftServerAPI
-<img src="https://img.shields.io/github/actions/workflow/status/Shweit/MinecraftServerAPI/runtime.yml" /> <img src="https://img.shields.io/github/v/release/Shweit/MinecraftServerAPI" /> <img src="https://img.shields.io/github/license/Shweit/MinecraftServerAPI" />
+# CraftAPI
+<img src="https://img.shields.io/github/actions/workflow/status/automataevox/CraftAPI/runtime.yml" /> <img src="https://img.shields.io/github/v/release/automataevox/CraftAPI" /> <img src="https://img.shields.io/github/license/automataevox/CraftAPI" />
 
 ## Overview
-**MinecraftServerAPI** is a powerful and flexible plugin for Minecraft servers, providing RESTful APIs to interact with the server programmatically. This project allows server administrators to automate tasks, gather information, manage the server more efficiently, and even trigger WebHooks for various server events.
+**CraftAPI** is a powerful and flexible plugin for Minecraft servers, providing RESTful APIs to interact with the server programmatically. This project allows server administrators to automate tasks, gather information, manage the server more efficiently, and even trigger WebHooks for various server events.
 
 ## Prerequisites
 - **Java:** JDK 20 or higher is required to build and run the project.
@@ -17,8 +17,8 @@
 ### Cloning the Repository
 1. Clone the repository to your local machine.
 ```shell
-git clone git@github.com:Shweit/MinecraftServerAPI.git
-cd MinecraftServerAPI
+git clone git@github.com:automataevox/CraftAPI.git
+cd CraftAPI
 ```
 ### Building the Project
 2. Build the project using Maven.
@@ -28,7 +28,7 @@ mvn clean install
 ### Setting up the Minecraft Server
 3. Copy the generated JAR file to the `plugins` directory of your Minecraft server.
 ```shell
-cp target/MinecraftServerAPI-1.0.jar /path/to/your/minecraft/server/plugins
+cp target/CraftAPI-1.0.jar /path/to/your/minecraft/server/plugins
 ```
 4. Start or restart your Minecraft server.
 ```shell
@@ -53,10 +53,10 @@ curl -X 'GET' \
 
 ## WebHook Usage
 ### Configuring WebHooks
-MinecraftServerAPI supports WebHooks, allowing you to trigger HTTP requests to specified URLs when certain events occur on your server (e.g., server start, server stop, plugin enable/disable).
+CraftAPI supports WebHooks, allowing you to trigger HTTP requests to specified URLs when certain events occur on your server (e.g., server start, server stop, plugin enable/disable).
 
 ### Setting up WebHooks
-1. **Define WebHooks URLs:** In your `config.yml` located in the `plugins/MinecraftServerAPI`, specify the URLs you want to trigger for different events.
+1. **Define WebHooks URLs:** In your `config.yml` located in the `plugins/CraftAPI`, specify the URLs you want to trigger for different events.
 2. **Enable/Disable WebHooks:** You can enable or disable WebHooks for specific events by setting the `enabled` flag to `true` or `false` in the `config.yml` file. Or you can enable/disable the WebHooks with the following commands:
 - **Enable a WebHook:**
 ```
@@ -72,7 +72,7 @@ MinecraftServerAPI supports WebHooks, allowing you to trigger HTTP requests to s
 ```
 
 ### Sending a custom WebHook
-MinecraftServerAPI allows you to send custom WebHook events to the URLs specified in your config.yml file. This feature enables you to trigger specific WebHook notifications manually.
+CraftAPI allows you to send custom WebHook events to the URLs specified in your config.yml file. This feature enables you to trigger specific WebHook notifications manually.
 
 To send a custom WebHook event, use the following command in-game or via the server console:
 ```
@@ -83,7 +83,7 @@ To send a custom WebHook event, use the following command in-game or via the ser
 For a detailed list of all available WebHooks and their default settings, please refer to the [WebHooks Documentation](webhooks.md).
 
 ## Configuration
-The plugin is configured via a `config.yml` file in the `plugins/MinecraftServerAPI directory. Here, you can set the authentication key and other settings.
+The plugin is configured via a `config.yml` file in the `plugins/CraftAPI directory. Here, you can set the authentication key and other settings.
 
 ## Contributing
 Contributions are welcome! Please read the [contributing guidelines](CONTRIBUTING.md) to get started.
