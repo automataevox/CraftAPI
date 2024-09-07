@@ -1,7 +1,7 @@
-# MinecraftServerAPI WebHooks
+# CraftAPI WebHooks
 
 ## Overview
-MinecraftServerAPI allows you to configure various WebHooks that are triggered by specific events on your Minecraft server. These WebHooks can be used to send notifications or execute specific actions when events occur in the game.
+CraftAPI allows you to configure various WebHooks that are triggered by specific events on your Minecraft server. These WebHooks can be used to send notifications or execute specific actions when events occur in the game.
 
 Below is a list of all possible WebHooks supported by MinecraftServerAPI, along with their default activation status.
 

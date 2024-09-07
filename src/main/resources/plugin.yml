@@ -1,26 +1,25 @@
-name: MinecraftServerAPI
-version: 1.0.2
-description: Provides RESTful APIs and WebHooks for managing and automating your Minecraft server.
-website: https://github.com/Shweit/MinecraftServerAPI
-author: Shweit
+name: CraftAPI
+version: 1.0.0
+description: Provides RESTful API for Minecraft Server.
+website: https://github.com/automataevox/CraftAPI
+author: AutomataEvoX
 contributors:
-  - Shweit
-  - Flix-29
+  - AutomataEvoX
 api-version: 1.21
 softdepend:
   - Maintenance
 
-main: com.shweit.serverapi.MinecraftServerAPI
+main: com.automataevox.craftapi.CraftAPI
 
 commands:
   webhooks:
     description: Command to manage the Webhooks.
     usage: /webhooks <command> [args]
-    permission: mcapi.webhooks
+    permission: craftapi.webhooks
     aliases:
       - wh
 
   mcapi:
     description: Main command for the MinecraftServerAPI.
-    usage: /mcapi <command> [args]
-    permission: mcapi
+    usage: /craftapi <command> [args]
+    permission: craftapi
