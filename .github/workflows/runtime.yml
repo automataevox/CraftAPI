@@ -1,4 +1,4 @@
-ame: Runtime Test
+name: Runtime Test
 
 on:
   workflow_dispatch:
