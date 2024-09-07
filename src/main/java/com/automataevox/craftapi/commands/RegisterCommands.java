@@ -27,10 +27,10 @@ public final class RegisterCommands {
         plugin.getCommand("webhooks").setExecutor(webhookCommandManager);
 
 
-        List<SubCommand> mcapiSubCommands = List.of(
+        List<SubCommand> capiSubCommands = List.of(
             new VersionCommand()
         );
-        CommandManager versionCommandManager = new CommandManager(mcapiSubCommands);
+        CommandManager versionCommandManager = new CommandManager(capiSubCommands);
         plugin.getCommand("capi").setExecutor(versionCommandManager);
     }
 }

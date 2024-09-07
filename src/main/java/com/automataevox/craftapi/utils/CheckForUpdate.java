@@ -34,7 +34,7 @@ public final class CheckForUpdate implements Listener {
 
     @EventHandler
     public void onPlayerJoin(final PlayerJoinEvent event) {
-        if (event.getPlayer().hasPermission("mcapi.version")) {
+        if (event.getPlayer().hasPermission("capi.version")) {
             Logger.debug("Checking for plugin update...");
             if (checkForPluginUpdate()) {
                 event.getPlayer().sendMessage("§aA new version of the MinecraftServerAPI plugin is available");

@@ -15,11 +15,13 @@ commands:
   webhooks:
     description: Command to manage the Webhooks.
     usage: /webhooks <command> [args]
-    permission: craftapi.webhooks
+    permission: capi.webhooks
     aliases:
       - wh
 
-  mcapi:
+  capi:
     description: Main command for the MinecraftServerAPI.
     usage: /craftapi <command> [args]
-    permission: craftapi
+    permission: capi
+    aliases:
+      - capi

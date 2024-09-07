@@ -14,14 +14,13 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.automataevox.craftapi.listeners.PlayerLoginListener;
 
 import java.io.File;
-import java.util.Base64;
 
 public class CraftAPI extends JavaPlugin  {
 
     private static final int DEFAULT_PORT = 7000;
     private WebServer server;
     public static FileConfiguration config;
-    public static String pluginName = "CraftAPI";
+    public static final String pluginName = "CraftAPI";
     private static CraftAPI instance;
 
     private static boolean blockNewConnections = false;

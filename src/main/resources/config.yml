@@ -23,7 +23,7 @@ webhooks:
   # You can set a list of URLs which should be called when the Webhook is triggered.
   # You can set multiple URLs here.
   urls:
-    - "localhost:7000/webhook1"
+    - "http://localhost:7000/webhooks"
 
   # Here is a list of all available Webhooks.
   # You can enable or disable them here.
