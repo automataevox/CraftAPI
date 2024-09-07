@@ -32,25 +32,12 @@ public final class WebServer extends NanoHTTPD {
 
         Logger.debug("Received request for: " + uri + " with method: " + method);
 
-        // Define Map of allowed origins
-        List<String> allowedPaths = List.of();
-
-        if (swaggerDocumentation) {
-            allowedPaths = List.of(
-                    "/", "/swagger-ui-bundle.js", "/swagger-ui.css", "/api-docs", "/index.css",
-                    "/searchPlugin.js", "/swagger-ui-standalone-preset.js", "/swagger-initializer.js", "/favicon-32x32.png",
-                    "/swagger-ui.css.map", "/favicon-16x16.png"
-            );
+        if (method.equals(NanoHTTPD.Method.OPTIONS)) {
+            return addCorsHeaders(newFixedLengthResponse(Response.Status.OK, MIME_PLAINTEXT, ""));
         }
 
-        // Check if the path is allowed
-        AtomicBoolean isAllowedPath = new AtomicBoolean(false);
-        String finalUri = uri;
-        allowedPaths.forEach(path -> {
-            if (finalUri.equals(path) || finalUri.startsWith("/swagger")) {
-                isAllowedPath.set(true);
-            }
-        });
+        // Define Map of allowed origins
+        AtomicBoolean isAllowedPath = getAtomicBoolean(swaggerDocumentation, uri);
 
         // Exception for the root path, swagger files and /api-docs from authentication
         if (isAuthenticated) {
@@ -102,14 +89,36 @@ public final class WebServer extends NanoHTTPD {
 
         for (RouteDefinition route : routes) {
             if (route.matches(uri, method, params)) {
-                return route.getHandler().apply(params);
+                return addCorsHeaders(route.getHandler().apply(params));
             }
         }
 
         Logger.debug("No route found for: " + uri + " with method: " + method);
 
         // Default response
-        return newFixedLengthResponse(Response.Status.NOT_FOUND, MIME_PLAINTEXT, "Not Found");
+        return addCorsHeaders(newFixedLengthResponse(Response.Status.NOT_FOUND, MIME_PLAINTEXT, "Not Found"));
+    }
+
+    private static AtomicBoolean getAtomicBoolean(boolean swaggerDocumentation, String uri) {
+        List<String> allowedPaths = List.of();
+
+        if (swaggerDocumentation) {
+            allowedPaths = List.of(
+                    "/", "/swagger-ui-bundle.js", "/swagger-ui.css", "/api-docs", "/index.css",
+                    "/searchPlugin.js", "/swagger-ui-standalone-preset.js", "/swagger-initializer.js", "/favicon-32x32.png",
+                    "/swagger-ui.css.map", "/favicon-16x16.png"
+            );
+        }
+
+        // Check if the path is allowed
+        AtomicBoolean isAllowedPath = new AtomicBoolean(false);
+        String finalUri = uri;
+        allowedPaths.forEach(path -> {
+            if (finalUri.equals(path) || finalUri.startsWith("/swagger")) {
+                isAllowedPath.set(true);
+            }
+        });
+        return isAllowedPath;
     }
 
     // Method to determine MIME type
@@ -121,7 +130,35 @@ public final class WebServer extends NanoHTTPD {
         return "text/plain";
     }
 
+    private Response addCorsHeaders(Response response) {
+        // Create a new Response with the same status, MIME type, and data from the original response
+        if (response.getData() != null) {
+            Response newResponse = getResponse(response);
+
+            return newResponse;
+        } else {
+            // Handle cases where response data is not InputStream
+            return newFixedLengthResponse(Response.Status.INTERNAL_ERROR, MIME_PLAINTEXT, "Unsupported response data type");
+        }
+    }
+
+    private static Response getResponse(Response response) {
+        InputStream originalData = (InputStream) response.getData();
+        Response newResponse = newChunkedResponse(response.getStatus(), response.getMimeType(), originalData);
+
+        // Add CORS headers
+        newResponse.addHeader("Access-Control-Allow-Origin", "*");
+        newResponse.addHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+        newResponse.addHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+        newResponse.addHeader("Access-Control-Max-Age", "3600");
+        return newResponse;
+    }
+
+
     public void addRoute(final NanoHTTPD.Method method, final String routePattern, final Function<Map<String, String>, Response> handler) {
-        routes.add(new RouteDefinition(method, routePattern, handler));
+        routes.add(new RouteDefinition(method, routePattern, params -> {
+            Response response = handler.apply(params);
+            return addCorsHeaders(response);
+        }));
     }
 }
