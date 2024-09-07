@@ -1,4 +1,4 @@
-name: Runtime Test
+ame: Runtime Test
 
 on:
   workflow_dispatch:
@@ -30,7 +30,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: artifact-${{ github.event.number }}
-          path: 'target/MinecraftServerAPI*.jar'
+          path: 'target/CraftAPI*.jar'
 
   runtime-test:
     name: Plugin Runtime Test

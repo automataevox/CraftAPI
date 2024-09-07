@@ -27,25 +27,6 @@ jobs:
       - name: Upload to release
         uses: softprops/action-gh-release@v1
         with:
-          files: target/MinecraftServerAPI-${{ github.event.release.tag_name }}.jar
+          files: target/CraftAPI-${{ github.event.release.tag_name }}.jar
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Modrinth Publish
-        uses: Kir-Antipov/mc-publish@v3.3
-        with:
-          modrinth-id: 'H4i6sdRk'
-          modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
-          modrinth-featured: true
-          files: |
-            target/MinecraftServerAPI-${{ github.event.release.tag_name }}.jar
-          loaders: |
-            spigot
-            paper
-            bukkit
-          game-versions: |
-            >=1.9 <=1.21.1
-          game-version-filter: 'releases'
-          java: 21
-
-
