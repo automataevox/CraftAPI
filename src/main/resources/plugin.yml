@@ -3,6 +3,7 @@ version: 2.0.0
 description: Provides RESTful API and Websocket communication for Minecraft Server.
 website: https://github.com/automataevox/CraftAPI
 author: AutomataEvoX
+fork: Shweit
 contributors:
   - AutomataEvoX
 api-version: 1.21
