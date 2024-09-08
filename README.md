@@ -2,7 +2,7 @@
 <img src="https://img.shields.io/github/actions/workflow/status/automataevox/CraftAPI/runtime.yml" /> <img src="https://img.shields.io/github/v/release/automataevox/CraftAPI" /> <img src="https://img.shields.io/github/license/automataevox/CraftAPI" /> <img src="https://sonarcloud.io/api/project_badges/measure?project=automataevox_CraftAPI&metric=alert_status" />
 
 ## Overview
-**CraftAPI** is a powerful and flexible plugin for Minecraft servers, providing RESTful APIs to interact with the server programmatically. This project allows server administrators to automate tasks, gather information, manage the server more efficiently, and even trigger WebHooks for various server events.
+**CraftAPI** is a powerful and flexible plugin for Minecraft servers, providing RESTful APIs to interact with the server programmatically. Info gathering is based on web sockets, so you will always see only up-to-date data in real-time!
 
 ## Prerequisites
 - **Java:** JDK 20 or higher is required to build and run the project.
@@ -50,37 +50,6 @@ curl -X 'GET' \
   -H 'accept: application/json' \
   -H 'Authorization: <API_KEY>'
 ```
-
-## WebHook Usage
-### Configuring WebHooks
-CraftAPI supports WebHooks, allowing you to trigger HTTP requests to specified URLs when certain events occur on your server (e.g., server start, server stop, plugin enable/disable).
-
-### Setting up WebHooks
-1. **Define WebHooks URLs:** In your `config.yml` located in the `plugins/CraftAPI`, specify the URLs you want to trigger for different events.
-2. **Enable/Disable WebHooks:** You can enable or disable WebHooks for specific events by setting the `enabled` flag to `true` or `false` in the `config.yml` file. Or you can enable/disable the WebHooks with the following commands:
-- **Enable a WebHook:**
-```
-/webhook enable <event>
-```
-- **Disable a WebHook:**
-```
-/webhook disable <event>
-```
-- **List all WebHooks:**
-```
-/webhook list
-```
-
-### Sending a custom WebHook
-CraftAPI allows you to send custom WebHook events to the URLs specified in your config.yml file. This feature enables you to trigger specific WebHook notifications manually.
-
-To send a custom WebHook event, use the following command in-game or via the server console:
-```
-/webhook send <event>
-```
-
-### More Information
-For a detailed list of all available WebHooks and their default settings, please refer to the [WebHooks Documentation](webhooks.md).
 
 ## Configuration
 The plugin is configured via a `config.yml` file in the `plugins/CraftAPI directory. Here, you can set the authentication key and other settings.
