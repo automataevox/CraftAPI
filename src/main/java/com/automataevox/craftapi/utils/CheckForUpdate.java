@@ -6,6 +6,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -37,7 +38,7 @@ public final class CheckForUpdate implements Listener {
         if (event.getPlayer().hasPermission("capi.version")) {
             Logger.debug("Checking for plugin update...");
             if (checkForPluginUpdate()) {
-                event.getPlayer().sendMessage("§aA new version of the MinecraftServerAPI plugin is available");
+                event.getPlayer().sendMessage("§aA new version of the CraftAPI plugin is available");
                 event.getPlayer().sendMessage("§aCurrent version: §f" + CraftAPI.getInstance().getDescription().getVersion());
                 event.getPlayer().sendMessage("§aLatest version: §f" + latestVersion);
             }
@@ -51,22 +52,7 @@ public final class CheckForUpdate implements Listener {
      */
     private String fetchLatestVersion() {
         try {
-            URL url = new URL(GITHUB_API_URL);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("GET");
-            connection.setRequestProperty("User-Agent", USER_AGENT);
-
-            BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            StringBuilder content = new StringBuilder();
-            String inputLine;
-            while ((inputLine = in.readLine()) != null) {
-                content.append(inputLine);
-            }
-
-            in.close();
-            connection.disconnect();
-
-            String jsonResponse = content.toString();
+            String jsonResponse = getString();
             Pattern pattern = Pattern.compile("\"tag_name\":\"([^\"]+)\"");
             Matcher matcher = pattern.matcher(jsonResponse);
 
@@ -80,5 +66,24 @@ public final class CheckForUpdate implements Listener {
             Logger.error("An error occurred while fetching the latest version: " + e.getMessage());
             return null;
         }
+    }
+
+    private static String getString() throws IOException {
+        URL url = new URL(GITHUB_API_URL);
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setRequestMethod("GET");
+        connection.setRequestProperty("User-Agent", USER_AGENT);
+
+        BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+        StringBuilder content = new StringBuilder();
+        String inputLine;
+        while ((inputLine = in.readLine()) != null) {
+            content.append(inputLine);
+        }
+
+        in.close();
+        connection.disconnect();
+
+        return content.toString();
     }
 }

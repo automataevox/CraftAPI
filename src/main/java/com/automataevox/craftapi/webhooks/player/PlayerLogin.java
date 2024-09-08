@@ -1,6 +1,7 @@
 package com.automataevox.craftapi.webhooks.player;
 
 import com.automataevox.craftapi.CraftAPI;
+import com.automataevox.craftapi.WebSocketServerHandler;
 import com.automataevox.craftapi.webhooks.RegisterWebHooks;
 import com.automataevox.craftapi.webhooks.WebHook;
 import com.automataevox.craftapi.webhooks.WebHookEnum;
@@ -29,7 +30,11 @@ public final class PlayerLogin implements WebHook, Listener {
         jsonObject.put("location", event.getPlayer().getLocation().toString());
         jsonObject.put("ip", event.getAddress().getHostAddress());
 
-        RegisterWebHooks.sendToAllUrls(jsonObject);
+        // Send the JSON object as a WebSocket message
+        String message = jsonObject.toString();
+        WebSocketServerHandler wsServer = CraftAPI.getInstance().getWebSocketServer();
+        if (wsServer != null) {
+            wsServer.broadcast(message);
+        }
     }
-
 }

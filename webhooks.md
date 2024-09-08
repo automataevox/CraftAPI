@@ -3,7 +3,7 @@
 ## Overview
 CraftAPI allows you to configure various WebHooks that are triggered by specific events on your Minecraft server. These WebHooks can be used to send notifications or execute specific actions when events occur in the game.
 
-Below is a list of all possible WebHooks supported by MinecraftServerAPI, along with their default activation status.
+Below is a list of all possible WebHooks supported by CraftAPI, along with their default activation status.
 
 ## WebHooks List
 
@@ -49,7 +49,7 @@ Below is a list of all possible WebHooks supported by MinecraftServerAPI, along 
 | `world_unload`         | Triggered when a world is unloaded.                                              | Enabled        |
 
 ## Configuration
-You can enable or disable these WebHooks by modifying the `config.yml` file located in the `plugins/MinecraftServerAPI` directory. Each WebHook can be toggled individually, allowing you to control which events trigger notifications.
+You can enable or disable these WebHooks by modifying the `config.yml` file located in the `plugins/CraftAPI` directory. Each WebHook can be toggled individually, allowing you to control which events trigger notifications.
 
 For more details on configuring WebHooks, please refer to the [main README](README.md).
 

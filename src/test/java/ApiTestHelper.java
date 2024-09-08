@@ -71,13 +71,13 @@ public abstract class ApiTestHelper {
     private static void copyPluginToDockerContainer() {
         try {
             // Plugin file
-            File pluginFile = new File("target/MinecraftServerAPI-1.0.jar");
+            File pluginFile = new File("target/CraftAPI-1.0.jar");
             File destDir_1 = new File("src/test/resources/minecraft-test-server/plugins");
             FileUtils.copyFileToDirectory(pluginFile, destDir_1);
 
             // Config file
             File configFile = new File("src/test/resources/server-data/config.yml");
-            File destDir_2 = new File("src/test/resources/minecraft-test-server/plugins/MinecraftServerAPI");
+            File destDir_2 = new File("src/test/resources/minecraft-test-server/plugins/CraftAPI");
             FileUtils.copyFileToDirectory(configFile, destDir_2);
 
             // Citizens plugin

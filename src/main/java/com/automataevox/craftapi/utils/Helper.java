@@ -9,6 +9,7 @@ import java.net.URI;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.file.Files;
+import java.util.Objects;
 import java.util.UUID;
 
 public final class Helper {
@@ -58,7 +59,7 @@ public final class Helper {
 
     public static void deleteDirectory(final File directory) throws IOException {
         if (directory.isDirectory()) {
-            for (File file : directory.listFiles()) {
+            for (File file : Objects.requireNonNull(directory.listFiles())) {
                 if (file.isDirectory()) {
                     deleteDirectory(file);
                 } else {

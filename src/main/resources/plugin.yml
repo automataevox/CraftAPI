@@ -1,6 +1,6 @@
 name: CraftAPI
-version: 1.0.0
-description: Provides RESTful API for Minecraft Server.
+version: 2.0.0
+description: Provides RESTful API and Websocket communication for Minecraft Server.
 website: https://github.com/automataevox/CraftAPI
 author: AutomataEvoX
 contributors:
@@ -20,7 +20,7 @@ commands:
       - wh
 
   capi:
-    description: Main command for the MinecraftServerAPI.
+    description: Main command for the CraftAPI.
     usage: /craftapi <command> [args]
     permission: capi
     aliases:

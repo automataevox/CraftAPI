@@ -16,11 +16,29 @@ public final class WebServer extends NanoHTTPD {
     private final boolean isAuthenticated;
     private final String authKey;
     private final List<RouteDefinition> routes = new ArrayList<>();
+    private final WebSocketServerHandler webSocketServer; // Declare it here as an instance variable
 
-    public WebServer(final int port, final boolean authenticationEnabled, final String authenticationKey) {
+
+    public WebServer(final int port, final boolean authenticationEnabled, final String authenticationKey, final int webSocketPort) {
         super(port);
         this.isAuthenticated = authenticationEnabled;
         this.authKey = authenticationKey;
+        this.webSocketServer = new WebSocketServerHandler(webSocketPort); // Initialize it here
+        this.webSocketServer.start(); // Start the WebSocket server
+    }
+
+    @Override
+    public void stop() {
+        super.stop();
+        if (webSocketServer != null) {
+            try {
+                webSocketServer.stop();
+                System.out.println("WebSocket server stopped successfully.");
+            } catch (Exception e) {
+                System.err.println("Error stopping WebSocket server: " + e.getMessage());
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override
@@ -31,6 +49,10 @@ public final class WebServer extends NanoHTTPD {
         boolean swaggerDocumentation = CraftAPI.config.getBoolean("swagger", true);
 
         Logger.debug("Received request for: " + uri + " with method: " + method);
+
+        if (session.getHeaders().containsKey("Upgrade") && session.getHeaders().get("Upgrade").equalsIgnoreCase("websocket")) {
+            return handleWebSocketUpgrade(session);
+        }
 
         if (method.equals(NanoHTTPD.Method.OPTIONS)) {
             return addCorsHeaders(newFixedLengthResponse(Response.Status.OK, MIME_PLAINTEXT, ""));
@@ -112,9 +134,8 @@ public final class WebServer extends NanoHTTPD {
 
         // Check if the path is allowed
         AtomicBoolean isAllowedPath = new AtomicBoolean(false);
-        String finalUri = uri;
         allowedPaths.forEach(path -> {
-            if (finalUri.equals(path) || finalUri.startsWith("/swagger")) {
+            if (uri.equals(path) || uri.startsWith("/swagger")) {
                 isAllowedPath.set(true);
             }
         });
@@ -133,9 +154,8 @@ public final class WebServer extends NanoHTTPD {
     private Response addCorsHeaders(Response response) {
         // Create a new Response with the same status, MIME type, and data from the original response
         if (response.getData() != null) {
-            Response newResponse = getResponse(response);
 
-            return newResponse;
+            return getResponse(response);
         } else {
             // Handle cases where response data is not InputStream
             return newFixedLengthResponse(Response.Status.INTERNAL_ERROR, MIME_PLAINTEXT, "Unsupported response data type");
@@ -143,7 +163,7 @@ public final class WebServer extends NanoHTTPD {
     }
 
     private static Response getResponse(Response response) {
-        InputStream originalData = (InputStream) response.getData();
+        InputStream originalData = response.getData();
         Response newResponse = newChunkedResponse(response.getStatus(), response.getMimeType(), originalData);
 
         // Add CORS headers
@@ -160,5 +180,10 @@ public final class WebServer extends NanoHTTPD {
             Response response = handler.apply(params);
             return addCorsHeaders(response);
         }));
+    }
+
+    private Response handleWebSocketUpgrade(IHTTPSession session) {
+        // Upgrade request to WebSocket
+        return newFixedLengthResponse(Response.Status.SWITCH_PROTOCOL, MIME_PLAINTEXT, "");
     }
 }

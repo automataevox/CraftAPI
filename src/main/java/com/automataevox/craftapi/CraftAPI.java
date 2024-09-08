@@ -17,11 +17,13 @@ import java.io.File;
 
 public class CraftAPI extends JavaPlugin  {
 
-    private static final int DEFAULT_PORT = 7000;
+    private static final int DEFAULT_WEB_PORT = 7000;
+    private static final int DEFAULT_WEBSOCKET_PORT = 7001;
     private WebServer server;
     public static FileConfiguration config;
     public static final String pluginName = "CraftAPI";
     private static CraftAPI instance;
+    private WebSocketServerHandler webSocketServer;
 
     private static boolean blockNewConnections = false;
     private static String blockNewConnectionsMessage;
@@ -50,8 +52,10 @@ public class CraftAPI extends JavaPlugin  {
             Logger.error("Please change the authKey in the config.yml file.");
         }
 
-        int port = getConfig().getInt("port", DEFAULT_PORT);
-        server = new WebServer(port, authEnabled, authKey);
+        int webPort = getConfig().getInt("webPort", DEFAULT_WEB_PORT);
+        int socketPort = getConfig().getInt("websocketPort", DEFAULT_WEBSOCKET_PORT);
+
+        server = new WebServer(webPort, authEnabled, authKey, socketPort);
 
         new RegisterEndpoints(server).registerEndpoints();
 
@@ -61,7 +65,7 @@ public class CraftAPI extends JavaPlugin  {
 
         try {
             server.start(NanoHTTPD.SOCKET_READ_TIMEOUT, false);
-            Logger.info("Web server started on port " + port);
+            Logger.info("Web server started on port " + webPort);
         } catch (Exception e) {
             Logger.error("Failed to start web server: " + e.getMessage());
             getServer().getPluginManager().disablePlugin(this);
@@ -106,5 +110,14 @@ public class CraftAPI extends JavaPlugin  {
 
     public static String getBlockNewConnectionsMessage() {
         return blockNewConnectionsMessage;
+    }
+
+    public WebSocketServerHandler getWebSocketServer() {
+        return webSocketServer;
+    }
+
+    public void startWebSocketServer(int port) {
+        webSocketServer = new WebSocketServerHandler(port);
+        webSocketServer.start();
     }
 }
