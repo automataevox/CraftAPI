@@ -116,8 +116,6 @@ public final class RegisterWebHooks {
         new PlayerChat().register();
         Logger.debug("Registered player_chat WebHook");
 
-        new PlayerLogin().register();
-        Logger.debug("Registered player_login WebHook");
 
         new PlayerCommand().register();
         Logger.debug("Registered player_command WebHook");
@@ -134,8 +132,6 @@ public final class RegisterWebHooks {
         new PlayerQuit().register();
         Logger.debug("Registered player_quit WebHook");
 
-        new PlayerRespawn().register();
-        Logger.debug("Registered player_respawn WebHook");
 
         new LightningStrike().register();
         Logger.debug("Registered lightning_strike WebHook");

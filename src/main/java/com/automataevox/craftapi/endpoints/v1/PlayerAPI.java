@@ -174,7 +174,6 @@ public final class PlayerAPI {
             return NanoHTTPD.newFixedLengthResponse(NanoHTTPD.Response.Status.NOT_FOUND, "application/json", "{}");
         }
 
-        // Spieler muss online sein, um Advancements abrufen zu können
         Player player = offlinePlayer.getPlayer();
         if (player == null || !player.isOnline()) {
             return NanoHTTPD.newFixedLengthResponse(NanoHTTPD.Response.Status.NOT_FOUND, "application/json", "{}");
@@ -182,7 +181,6 @@ public final class PlayerAPI {
 
         JSONObject advancementsJson = new JSONObject();
 
-        // Durch alle Advancements iterieren und den Fortschritt des Spielers abrufen
         for (Iterator<Advancement> it = Bukkit.advancementIterator(); it.hasNext();) {
             Advancement advancement = it.next();
             AdvancementProgress progress = player.getAdvancementProgress(advancement);

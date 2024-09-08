@@ -56,10 +56,9 @@ public class CraftAPI extends JavaPlugin  {
         int socketPort = getConfig().getInt("websocketPort", DEFAULT_WEBSOCKET_PORT);
 
         server = new WebServer(webPort, authEnabled, authKey, socketPort);
+        webSocketServer = server.webSocketServer();
 
         new RegisterEndpoints(server).registerEndpoints();
-
-        new RegisterWebHooks().registerWebHooks();
 
         new RegisterCommands(this).register();
 

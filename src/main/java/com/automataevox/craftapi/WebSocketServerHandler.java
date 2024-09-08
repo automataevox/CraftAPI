@@ -1,47 +1,48 @@
 package com.automataevox.craftapi;
 
+import com.automataevox.craftapi.listeners.ServerHealthListener;
+import com.automataevox.craftapi.utils.Logger;
 import org.java_websocket.server.WebSocketServer;
 import org.java_websocket.WebSocket;
 import org.java_websocket.handshake.ClientHandshake;
-
 import java.net.InetSocketAddress;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class WebSocketServerHandler extends WebSocketServer {
 
     public WebSocketServerHandler(int port) {
         super(new InetSocketAddress(port));
+        startBroadcastingServerHealth();
     }
 
     private final Set<WebSocket> clients = Collections.synchronizedSet(new HashSet<>());
 
     @Override
     public void onOpen(WebSocket conn, ClientHandshake handshake) {
-        System.out.println("New connection: " + conn.getRemoteSocketAddress());
+        Logger.info("New connection: " + conn.getRemoteSocketAddress());
+        clients.add(conn);
     }
 
     @Override
     public void onMessage(WebSocket conn, String message) {
-        System.out.println("Message from client: " + message);
-        // Echo message back to the client
+        Logger.debug("Message from client: " + message);
         conn.send("Echo: " + message);
     }
 
     @Override
     public void onClose(WebSocket conn, int code, String reason, boolean remote) {
-        System.out.println("Connection closed: " + conn.getRemoteSocketAddress());
+        Logger.info("Connection closed: " + conn.getRemoteSocketAddress());
+        clients.remove(conn);
     }
 
     @Override
     public void onError(WebSocket conn, Exception ex) {
-        ex.printStackTrace();
+        Logger.error(ex.getMessage());
     }
 
     @Override
     public void onStart() {
-        System.out.println("WebSocket server started successfully");
+        Logger.info("WebSocket server started successfully");
     }
 
     @Override
@@ -51,6 +52,17 @@ public class WebSocketServerHandler extends WebSocketServer {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private void startBroadcastingServerHealth() {
+        Timer timer = new Timer(true); // Create a new Timer to schedule repeated tasks
+        ServerHealthListener serverHealthListener = new ServerHealthListener(); // Create an instance of the listener
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                broadcast(serverHealthListener.getServerHealth().toString()); // Broadcast the health data as a JSON string
+            }
+        }, 0, 1000); // 0 delay, 1000ms (1s) period
     }
 
     public void broadcast(String message) {

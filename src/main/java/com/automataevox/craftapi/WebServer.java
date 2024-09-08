@@ -16,7 +16,7 @@ public final class WebServer extends NanoHTTPD {
     private final boolean isAuthenticated;
     private final String authKey;
     private final List<RouteDefinition> routes = new ArrayList<>();
-    private final WebSocketServerHandler webSocketServer; // Declare it here as an instance variable
+    public final WebSocketServerHandler webSocketServer; // Declare it here as an instance variable
 
 
     public WebServer(final int port, final boolean authenticationEnabled, final String authenticationKey, final int webSocketPort) {
@@ -185,5 +185,9 @@ public final class WebServer extends NanoHTTPD {
     private Response handleWebSocketUpgrade(IHTTPSession session) {
         // Upgrade request to WebSocket
         return newFixedLengthResponse(Response.Status.SWITCH_PROTOCOL, MIME_PLAINTEXT, "");
+    }
+
+    public WebSocketServerHandler webSocketServer() {
+        return this.webSocketServer;
     }
 }
